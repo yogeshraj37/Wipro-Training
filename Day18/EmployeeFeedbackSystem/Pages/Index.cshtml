@@ -1,0 +1,26 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<h2>This is Employee Feedback Form</h2>
+<form method="post">
+    <div>
+        <label> Enter the name </label>
+        <input asp-for="EmployeeName" />
+    </div>
+    <br>
+    <div>
+        <label>Enter the Feedback:</label>
+        <input asp-for="Feedback" />
+    </div>
+
+    <br />
+
+    <button type="submit">Submit</button>
+</form>
+
+@if (Model.Message != null)
+{
+    <p style="color: bisque;"> @Model.Message</p>
+}
