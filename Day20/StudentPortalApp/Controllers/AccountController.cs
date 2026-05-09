@@ -30,4 +30,18 @@ public class AccountController : Controller
         return View();
     }
 
+    public IActionResult SetTheme()
+{
+    CookieOptions options = new CookieOptions();
+    options.Expires = DateTime.Now.AddDays(7);
+    Response.Cookies.Append("Theme", "Dark", options);
+    return Content("Theme Cookie Created");
+}
+//Reading Cookie
+public IActionResult GetTheme()
+{
+    var theme = Request.Cookies["Theme"];
+    return Content("Current Theme: " + theme);
+}
+
 }
