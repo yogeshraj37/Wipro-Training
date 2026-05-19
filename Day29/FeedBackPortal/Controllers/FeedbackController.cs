@@ -6,21 +6,21 @@ namespace FeedbackPortal.Controllers
     public class FeedbackController : Controller
     {
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create()  // this method floats the empty form 
         {
             return View(new UserComment());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(UserComment submission)
+        public IActionResult Create(UserComment submission)  // It's handle the ///submittted form 
         {
             if (!ModelState.IsValid)
             {
                 return View(submission);
             }
 
-            // Save to database here if needed
+            
 
             return RedirectToAction("Success", submission);
         }
