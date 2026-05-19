@@ -1,0 +1,15 @@
+CREATE DATABASE CollegeDB;
+GO
+
+USE CollegeDB;
+GO
+
+CREATE TABLE Students
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100),
+    Age INT
+);
+GO
+
+SELECT * FROM Students;

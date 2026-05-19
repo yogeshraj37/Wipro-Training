@@ -1,0 +1,24 @@
+﻿ <h2>Simple AJAX Example</h2>
+
+<button id="btnClick">Get Message</button>
+
+<h3 id="result"></h3>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(function () {
+        $("#btnClick").click(function () {
+            $.ajax({
+                url: '@Url.Action("GetMessage", "Home")',
+                type: 'GET',
+                success: function (response) {
+                    $("#result").text(response.message);
+                },
+                error: function () {
+                    alert("Error occurred");
+                }
+            });
+        });
+    });
+</script>

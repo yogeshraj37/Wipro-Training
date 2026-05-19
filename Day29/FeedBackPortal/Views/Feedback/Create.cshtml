@@ -1,0 +1,31 @@
+@model FeedbackPortal.Models.UserComment
+
+<h2>Submit Feedback</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label asp-for="CommentText">Comment</label>
+        <textarea asp-for="CommentText"></textarea>
+        <span asp-validation-for="CommentText" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <button type="submit">Submit</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
