@@ -1,0 +1,38 @@
+@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div style="text-align:center; padding: 3rem 0 2rem; background: linear-gradient(135deg, var(--light) 0%, var(--cream) 100%); border-radius: 12px; margin-bottom: 2rem;">
+    <h1 style="font-family:'Playfair Display',serif; font-size:2.8rem; color:var(--brown)">Your Next Great Read Awaits</h1>
+    <p style="color:#666; margin: 1rem 0 1.5rem; font-size:1.1rem">Explore thousands of books — fiction, technical, self-help, and more.</p>
+    <a href="/catalog" class="btn btn-gold" style="font-size:1rem; padding:0.7rem 2rem">Browse All Books →</a>
+</div>
+
+<h2 style="font-family:'Playfair Display',serif; margin-bottom:1.5rem; color:var(--brown)">Featured Books</h2>
+
+<div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:1.5rem">
+    @foreach (var book in Model)
+    {
+        <div style="background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; flex-direction:column;">
+            <div style="background:var(--brown); height:8px;"></div>
+            <div style="padding:1.2rem; flex:1">
+                <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; color:var(--gold); font-weight:600; margin-bottom:0.3rem">@book.Category</div>
+                <h3 style="font-family:'Playfair Display',serif; font-size:1rem; margin-bottom:0.3rem; line-height:1.3">@book.Title</h3>
+                <p style="color:#888; font-size:0.85rem; margin-bottom:0.8rem">@book.Author</p>
+                <p style="font-size:1.2rem; font-weight:700; color:var(--brown)">₹@book.Price.ToString("N2")</p>
+                @if (!book.IsAvailable)
+                {
+                    <span style="color:var(--red); font-size:0.8rem">Out of stock</span>
+                }
+            </div>
+            <div style="padding:0.8rem 1.2rem; border-top:1px solid var(--light)">
+                <a href="/catalog/details/@book.Id" class="btn btn-primary btn-sm" style="width:100%;text-align:center">View Details</a>
+            </div>
+        </div>
+    }
+</div>
+
+<div style="text-align:center; margin-top:2rem">
+    <a href="/catalog" class="btn btn-primary">See All Books</a>
+</div>

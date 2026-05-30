@@ -1,0 +1,75 @@
+@model List<BookstoreApp.Models.CartItem>
+@{
+    ViewData["Title"] = "Shopping Cart";
+    decimal total = ViewBag.Total;
+}
+
+<h1 style="font-family:'Playfair Display',serif; color:var(--brown); margin-bottom:1.5rem">🛒 Shopping Cart</h1>
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:4rem; background:white; border-radius:12px">
+        <p style="font-size:3rem; margin-bottom:1rem">📭</p>
+        <p style="color:#888; margin-bottom:1.5rem">Your cart is empty.</p>
+        <a href="/catalog" class="btn btn-gold">Browse Books</a>
+    </div>
+}
+else
+{
+    <div style="display:grid; grid-template-columns:2fr 1fr; gap:2rem; align-items:start">
+        <div style="background:white; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07)">
+            @foreach (var item in Model)
+            {
+                <div style="display:flex; align-items:center; padding:1.2rem; border-bottom:1px solid var(--light); gap:1rem">
+                    <div style="flex:1">
+                        <p style="font-weight:700; font-family:'Playfair Display',serif">@item.Title</p>
+                        <p style="color:#888; font-size:0.85rem">@item.Author</p>
+                        <p style="color:var(--brown); font-weight:600">₹@item.Price.ToString("N2") each</p>
+                    </div>
+                    <form action="/cart/update" method="post" style="display:flex; align-items:center; gap:0.5rem">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="bookId" value="@item.BookId" />
+                        <input type="number" name="quantity" value="@item.Quantity" min="0" max="99"
+                               style="width:60px; padding:0.4rem; border:1px solid #ddd; border-radius:6px; text-align:center; font-family:inherit"
+                               onchange="this.form.submit()">
+                    </form>
+                    <p style="font-weight:700; font-size:1.1rem; min-width:80px; text-align:right">₹@item.Subtotal.ToString("N2")</p>
+                    <form action="/cart/remove" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="bookId" value="@item.BookId" />
+                        <button type="submit" class="btn btn-sm btn-danger">✕</button>
+                    </form>
+                </div>
+            }
+        </div>
+
+        <div>
+            <div style="background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); position:sticky; top:1rem">
+                <h3 style="font-family:'Playfair Display',serif; margin-bottom:1rem; color:var(--brown)">Order Summary</h3>
+                <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; color:#666">
+                    <span>Items (@Model.Sum(i => i.Quantity))</span>
+                    <span>₹@total.ToString("N2")</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.2rem; padding-top:0.8rem; border-top:2px solid var(--light)">
+                    <span>Total</span>
+                    <span style="color:var(--brown)">₹@total.ToString("N2")</span>
+                </div>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a href="/orders/checkout" class="btn btn-gold" style="width:100%; text-align:center; display:block; margin-top:1.2rem; padding:0.8rem">Proceed to Checkout</a>
+                }
+                else
+                {
+                    <a href="/login?returnUrl=/orders/checkout" class="btn btn-gold" style="width:100%; text-align:center; display:block; margin-top:1.2rem; padding:0.8rem">Login to Checkout</a>
+                }
+
+                <form action="/cart/clear" method="post" style="margin-top:0.5rem">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn" style="width:100%; background:var(--light); color:#666"
+                            onclick="return confirm('Clear your cart?')">Clear Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}

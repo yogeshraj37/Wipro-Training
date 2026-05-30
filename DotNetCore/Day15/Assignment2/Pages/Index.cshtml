@@ -1,0 +1,30 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Item List";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-5">Razor Pages Item List</h1>
+    <p class="lead">This page displays the current list of items and updates when you add new ones.</p>
+    <a asp-page="/AddItem" class="btn btn-primary">Add a new item</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="h4">Current Items</h2>
+        @if (Model.Items.Count == 0)
+        {
+            <p class="text-muted">No items yet. Add one to get started.</p>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var item in Model.Items)
+                {
+                    <li class="list-group-item">@item</li>
+                }
+            </ul>
+        }
+    </div>
+</div>

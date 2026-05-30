@@ -1,0 +1,61 @@
+@model Book
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div style="margin-bottom:1rem">
+    <a href="/catalog" style="color:var(--brown); text-decoration:none">← Back to Catalog</a>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start">
+    <div style="background:white; border-radius:12px; padding:2rem; box-shadow:0 2px 12px rgba(0,0,0,0.08)">
+        <div style="background:var(--brown); height:8px; margin:-2rem -2rem 1.5rem; border-radius:12px 12px 0 0"></div>
+        <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:2px; color:var(--gold); font-weight:700">@Model.Category</span>
+        <h1 style="font-family:'Playfair Display',serif; font-size:2rem; margin:0.5rem 0; line-height:1.2">@Model.Title</h1>
+        <p style="color:#666; font-size:1.1rem; margin-bottom:1.5rem">by <strong>@Model.Author</strong></p>
+        <p style="color:#888; font-size:0.85rem">ISBN: @Model.ISBN</p>
+        @if (Model.Description != null)
+        {
+            <p style="margin-top:1rem; line-height:1.7; color:#444">@Model.Description</p>
+        }
+    </div>
+
+    <div>
+        <div style="background:white; border-radius:12px; padding:2rem; box-shadow:0 2px 12px rgba(0,0,0,0.08); margin-bottom:1rem">
+            <p style="font-size:2.5rem; font-weight:700; color:var(--brown)">₹@Model.Price.ToString("N2")</p>
+            @if (Model.IsAvailable)
+            {
+                <p style="color:var(--green); margin-bottom:1.5rem">✓ In Stock (@Model.StockQuantity copies available)</p>
+                <form action="/catalog/addtocart" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="bookId" value="@Model.Id" />
+                    <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:1rem">
+                        <label style="font-size:0.9rem">Qty:</label>
+                        <input type="number" name="quantity" value="1" min="1" max="@Model.StockQuantity"
+                               style="width:70px; padding:0.4rem; border:1px solid #ddd; border-radius:6px; font-family:inherit">
+                    </div>
+                    <button type="submit" class="btn btn-gold" style="width:100%; padding:0.75rem; font-size:1rem">🛒 Add to Cart</button>
+                </form>
+            }
+            else
+            {
+                <p style="color:var(--red); font-size:1rem">Currently out of stock</p>
+            }
+        </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div style="border:1px dashed var(--gold); border-radius:8px; padding:1rem; background:rgba(200,151,58,0.05)">
+                <p style="font-size:0.8rem; color:var(--gold); font-weight:600; margin-bottom:0.5rem">ADMIN ACTIONS</p>
+                <div style="display:flex; gap:0.5rem">
+                    <a href="/admin/books/edit/@Model.Id" class="btn btn-sm btn-primary">Edit</a>
+                    <form action="/admin/books/delete/@Model.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this book?')">Delete</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>

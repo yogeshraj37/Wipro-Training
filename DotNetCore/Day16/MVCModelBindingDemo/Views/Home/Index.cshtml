@@ -1,0 +1,43 @@
+﻿@model MVCModelBindingDemo.Models.Person
+
+<h2>User Form</h2>
+
+<form asp-action="Submit" method="post">
+
+    <label>First Name</label>
+    <input asp-for="FirstName" />
+
+    <br />
+
+    <label>Last Name</label>
+    <input asp-for="LastName" />
+
+    <br />
+
+    <label>Age</label>
+    <input asp-for="Age" />
+
+    <br /><br />
+
+    <h3>Address Details</h3>
+
+    <label>Street</label>
+    <input asp-for="Address.Street" />
+
+    <br />
+
+    <label>City</label>
+    <input asp-for="Address.City" />
+
+    <br />
+
+    <label>Zip Code</label>
+    <input asp-for="Address.ZipCode" />
+
+    <br /><br />
+
+    <button type="submit">
+        Submit
+    </button>
+
+</form>

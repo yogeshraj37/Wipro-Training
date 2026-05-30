@@ -1,0 +1,46 @@
+@page
+@model RazorPagesProductApp.Pages.Products.IndexModel
+
+<h2>Add Product</h2>
+
+<form method="post">
+
+    <label>Product ID</label>
+    <input asp-for="Product.ProductID" />
+
+    <br />
+
+    <label>Name</label>
+    <input asp-for="Product.Name" />
+
+    <br />
+
+    <label>Description</label>
+    <input asp-for="Product.Description" />
+
+    <br />
+
+    <label>Category 1</label>
+    <input asp-for="Product.Categories[0].Name" />
+
+    <br />
+
+    <label>Category 2</label>
+    <input asp-for="Product.Categories[1].Name" />
+
+    <br /><br />
+
+    <button type="submit">
+        Save Product
+    </button>
+
+</form>
+
+<hr />
+
+<h2>Products List</h2>
+
+@foreach (var product in IndexModel.Products)
+{
+    <partial name="_ProductSummary" model="product" />
+}

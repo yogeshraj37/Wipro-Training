@@ -1,0 +1,45 @@
+@* Orders/Checkout.cshtml *@
+@model List<BookstoreApp.Models.CartItem>
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h1 style="font-family:'Playfair Display',serif; color:var(--brown); margin-bottom:1.5rem">📋 Checkout</h1>
+
+<div style="display:grid; grid-template-columns:2fr 1fr; gap:2rem; align-items:start">
+    <div>
+        <div style="background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07); margin-bottom:1.5rem">
+            <h3 style="font-family:'Playfair Display',serif; margin-bottom:1rem">Order Items</h3>
+            @foreach (var item in Model)
+            {
+                <div style="display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--light)">
+                    <div>
+                        <span style="font-weight:600">@item.Title</span>
+                        <span style="color:#888; font-size:0.85rem"> × @item.Quantity</span>
+                    </div>
+                    <span style="font-weight:600">₹@item.Subtotal.ToString("N2")</span>
+                </div>
+            }
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.1rem; padding-top:0.8rem; color:var(--brown)">
+                <span>Total</span>
+                <span>₹@ViewBag.CartTotal.ToString("N2")</span>
+            </div>
+        </div>
+
+        <form action="/orders/placeorder" method="post"
+              style="background:white; border-radius:12px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.07)">
+            @Html.AntiForgeryToken()
+            <h3 style="font-family:'Playfair Display',serif; margin-bottom:1rem">Shipping Details</h3>
+            <label style="font-weight:600; display:block; margin-bottom:0.4rem">Shipping Address</label>
+            <textarea name="shippingAddress" rows="4" required placeholder="Enter your full shipping address…"
+                      style="width:100%; padding:0.7rem; border:1px solid #ddd; border-radius:6px; font-family:inherit; font-size:1rem; resize:vertical; margin-bottom:1.2rem"></textarea>
+            <button type="submit" class="btn btn-gold" style="padding:0.8rem 2rem; font-size:1rem">✓ Place Order</button>
+            <a href="/cart" class="btn" style="background:var(--light); margin-left:0.5rem; padding:0.8rem 1.5rem">← Back to Cart</a>
+        </form>
+    </div>
+
+    <div style="background:var(--light); border-radius:12px; padding:1.2rem">
+        <p style="font-weight:600; color:var(--brown); margin-bottom:0.5rem">🔒 Secure Checkout</p>
+        <p style="font-size:0.85rem; color:#666; line-height:1.6">Your order is protected. You can track it from My Orders after placement.</p>
+    </div>
+</div>

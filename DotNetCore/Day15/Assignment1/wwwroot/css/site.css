@@ -1,0 +1,64 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+.container {
+    width: min(960px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+}
+
+.hero {
+    background: linear-gradient(135deg, #0f172a, #2563eb);
+    color: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+}
+
+.hero h1 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.hero ul {
+    padding-left: 1.1rem;
+    line-height: 1.8;
+}
+
+.card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+}
+
+button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+#message {
+    min-height: 1.5rem;
+    font-weight: 600;
+}

@@ -1,0 +1,48 @@
+@model IEnumerable<BookstoreApp.Models.Order>
+@{
+    ViewData["Title"] = "All Orders";
+}
+
+<h1 style="font-family:'Playfair Display',serif; color:var(--brown); margin-bottom:1.5rem">📋 All Orders</h1>
+
+<div style="background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07)">
+    <table style="width:100%; border-collapse:collapse">
+        <thead style="background:var(--ink); color:var(--cream)">
+            <tr>
+                <th style="padding:0.8rem 1rem; text-align:left">Order #</th>
+                <th style="padding:0.8rem 1rem; text-align:left">Customer</th>
+                <th style="padding:0.8rem 1rem; text-align:left">Date</th>
+                <th style="padding:0.8rem 1rem; text-align:right">Total</th>
+                <th style="padding:0.8rem 1rem; text-align:center">Status</th>
+                <th style="padding:0.8rem 1rem; text-align:center">Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr style="border-bottom:1px solid var(--light)">
+                    <td style="padding:0.8rem 1rem; font-weight:600">#@order.Id</td>
+                    <td style="padding:0.8rem 1rem">@order.Username</td>
+                    <td style="padding:0.8rem 1rem; color:#888; font-size:0.85rem">@order.PlacedAt.ToString("dd MMM yyyy")</td>
+                    <td style="padding:0.8rem 1rem; text-align:right; color:var(--brown); font-weight:600">₹@order.TotalAmount.ToString("N2")</td>
+                    <td style="padding:0.8rem 1rem; text-align:center">
+                        <span style="background:var(--light); padding:0.2rem 0.6rem; border-radius:12px; font-size:0.8rem">@order.Status</span>
+                    </td>
+                    <td style="padding:0.8rem 1rem; text-align:center">
+                        <form action="/orders/updatestatus" method="post" style="display:flex; gap:0.4rem; justify-content:center">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <select name="status" style="padding:0.3rem; border:1px solid #ddd; border-radius:4px; font-family:inherit; font-size:0.85rem">
+                                @foreach (var s in new[] { "Pending", "Confirmed", "Shipped", "Delivered", "Cancelled" })
+                                {
+                                    <option value="@s" selected="@(order.Status == s)">@s</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

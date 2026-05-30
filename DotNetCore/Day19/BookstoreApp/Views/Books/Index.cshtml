@@ -1,0 +1,67 @@
+@* Books/Index.cshtml — Public book catalog with search/filter *@
+@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Browse Books";
+}
+
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem">
+    <h1 style="font-family:'Playfair Display',serif; color:var(--brown)">Book Catalog</h1>
+    <form method="get" action="/catalog" style="display:flex; gap:0.5rem; flex-wrap:wrap">
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="Search title, author, ISBN…"
+               style="padding:0.5rem 0.8rem; border:1px solid #ddd; border-radius:6px; font-family:inherit; min-width:220px">
+        <select name="category" style="padding:0.5rem; border:1px solid #ddd; border-radius:6px; font-family:inherit">
+            <option value="">All Categories</option>
+            @foreach (var cat in new[] { "Programming", "Architecture", "Fiction", "Self-Help", "History", "Science" })
+            {
+                <option value="@cat" selected="@(ViewBag.Category == cat ? "selected" : null)">@cat</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Search</button>
+        @if (!string.IsNullOrEmpty(ViewBag.Search?.ToString()) || !string.IsNullOrEmpty(ViewBag.Category?.ToString()))
+        {
+            <a href="/catalog" class="btn" style="background:var(--light)">Clear</a>
+        }
+    </form>
+</div>
+
+@if (!Model.Any())
+{
+    <p style="color:#888; text-align:center; padding:3rem">No books found. <a href="/catalog">Clear filters</a></p>
+}
+else
+{
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:1.5rem">
+        @foreach (var book in Model)
+        {
+            <div style="background:white; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.07); display:flex; flex-direction:column; overflow:hidden">
+                <div style="background:var(--brown); height:6px;"></div>
+                <div style="padding:1.2rem; flex:1">
+                    <span style="font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; color:var(--gold); font-weight:600">@book.Category</span>
+                    <h3 style="font-family:'Playfair Display',serif; margin:0.3rem 0; font-size:1rem; line-height:1.3">@book.Title</h3>
+                    <p style="color:#888; font-size:0.85rem">@book.Author</p>
+                    <p style="margin-top:0.5rem; font-weight:700; font-size:1.1rem; color:var(--brown)">₹@book.Price.ToString("N2")</p>
+                    @if (book.IsAvailable)
+                    {
+                        <span style="color:var(--green); font-size:0.8rem">✓ In stock (@book.StockQuantity)</span>
+                    }
+                    else
+                    {
+                        <span style="color:var(--red); font-size:0.8rem">✗ Out of stock</span>
+                    }
+                </div>
+                <div style="padding:0.8rem 1.2rem; border-top:1px solid var(--light); display:flex; gap:0.5rem">
+                    <a href="/catalog/details/@book.Id" class="btn btn-sm btn-primary" style="flex:1; text-align:center">Details</a>
+                    @if (book.IsAvailable)
+                    {
+                        <form action="/catalog/addtocart" method="post" style="flex:1">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="bookId" value="@book.Id" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn btn-sm btn-gold" style="width:100%">+ Cart</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

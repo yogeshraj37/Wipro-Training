@@ -1,0 +1,8 @@
+@model AdvancedMvcFilters.App.Models.Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h1>@Model.Name</h1>
+<p>@Model.Description</p>
+<p><strong>@Model.Price.ToString("C")</strong></p>

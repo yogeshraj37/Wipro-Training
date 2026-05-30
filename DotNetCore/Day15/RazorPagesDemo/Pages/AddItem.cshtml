@@ -1,0 +1,25 @@
+@page
+@model RazorPagesAssignment.Pages.AddItemModel
+
+<h2>Add New Item</h2>
+
+<form method="post">
+
+    <div>
+        <label>Item Name:</label>
+        <input asp-for="ItemName" />
+    </div>
+
+    <br>
+
+    <button type="submit">
+        Add Item
+    </button>
+
+</form>
+
+<br>
+
+<a asp-page="/Index">
+    Back To List
+</a>

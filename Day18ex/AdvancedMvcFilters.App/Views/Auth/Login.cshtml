@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Login";
+    var returnUrl = ViewData["ReturnUrl"] as string;
+}
+
+<h1>Login</h1>
+<form method="post" class="col-md-5">
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+    <div class="mb-3">
+        <label class="form-label" for="userId">User ID</label>
+        <input class="form-control" id="userId" name="userId" value="customer1" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="role">Role</label>
+        <select class="form-select" id="role" name="role">
+            <option>Customer</option>
+            <option>Admin</option>
+        </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Login</button>
+</form>

@@ -1,0 +1,9 @@
+@{
+    ViewData["Title"] = "Error";
+}
+<div style="text-align:center; padding:4rem 2rem">
+    <div style="font-size:4rem">⚠️</div>
+    <h1 style="font-family:'Playfair Display',serif; color:var(--red); margin:1rem 0">Something went wrong</h1>
+    <p style="color:#666; margin-bottom:2rem">@(ViewBag.ErrorMessage ?? "An unexpected error occurred.")</p>
+    <a href="/" class="btn btn-primary">Back to Home</a>
+</div>

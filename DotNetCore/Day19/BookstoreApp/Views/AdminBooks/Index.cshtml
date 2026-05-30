@@ -1,0 +1,48 @@
+@* AdminBooks/Index.cshtml *@
+@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Manage Books";
+}
+
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem">
+    <h1 style="font-family:'Playfair Display',serif; color:var(--brown)">📚 Manage Books</h1>
+    <a href="/admin/books/create" class="btn btn-gold">+ Add New Book</a>
+</div>
+
+<div style="background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07)">
+    <table style="width:100%; border-collapse:collapse">
+        <thead style="background:var(--ink); color:var(--cream)">
+            <tr>
+                <th style="padding:0.8rem 1rem; text-align:left">Title</th>
+                <th style="padding:0.8rem 1rem; text-align:left">Author</th>
+                <th style="padding:0.8rem 1rem; text-align:left">ISBN</th>
+                <th style="padding:0.8rem 1rem; text-align:right">Price</th>
+                <th style="padding:0.8rem 1rem; text-align:right">Stock</th>
+                <th style="padding:0.8rem 1rem; text-align:center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr style="border-bottom:1px solid var(--light)">
+                    <td style="padding:0.8rem 1rem; font-weight:600">@book.Title</td>
+                    <td style="padding:0.8rem 1rem; color:#666">@book.Author</td>
+                    <td style="padding:0.8rem 1rem; font-family:monospace; font-size:0.85rem">@book.ISBN</td>
+                    <td style="padding:0.8rem 1rem; text-align:right; color:var(--brown); font-weight:600">₹@book.Price.ToString("N2")</td>
+                    <td style="padding:0.8rem 1rem; text-align:right; color:@(book.IsAvailable ? "var(--green)" : "var(--red)")">@book.StockQuantity</td>
+                    <td style="padding:0.8rem 1rem; text-align:center">
+                        <div style="display:flex; gap:0.4rem; justify-content:center">
+                            <a href="/catalog/details/@book.Id" class="btn btn-sm" style="background:var(--light)">View</a>
+                            <a href="/admin/books/edit/@book.Id" class="btn btn-sm btn-primary">Edit</a>
+                            <form action="/admin/books/delete/@book.Id" method="post" style="display:inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Delete &quot;@book.Title&quot;?')">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AdvancedMvcFilters.App/AdvancedMvcFilters.App.csproj" />
+  <Project Path="AdvancedMvcFilters.Tests/AdvancedMvcFilters.Tests.csproj" />
+</Solution>

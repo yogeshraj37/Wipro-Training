@@ -1,0 +1,45 @@
+@* Auth/Login.cshtml *@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div style="max-width:420px; margin:3rem auto">
+    <h1 style="font-family:'Playfair Display',serif; color:var(--brown); text-align:center; margin-bottom:1.5rem">Welcome Back</h1>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-error">@ViewBag.Message</div>
+    }
+
+    <form action="/login" method="post"
+          style="background:white; border-radius:12px; padding:2rem; box-shadow:0 2px 12px rgba(0,0,0,0.1)">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+        <div asp-validation-summary="All" style="background:#fff3f3; border:1px solid #f5c6cb; border-radius:6px; padding:0.8rem; margin-bottom:1rem; color:var(--red); font-size:0.85rem"></div>
+
+        <div style="margin-bottom:1.2rem">
+            <label style="font-weight:600; display:block; margin-bottom:0.4rem">Username</label>
+            <input type="text" name="username" required autofocus
+                   style="width:100%; padding:0.7rem; border:1px solid #ddd; border-radius:8px; font-family:inherit; font-size:1rem">
+        </div>
+
+        <div style="margin-bottom:1.5rem">
+            <label style="font-weight:600; display:block; margin-bottom:0.4rem">Password</label>
+            <input type="password" name="password" required
+                   style="width:100%; padding:0.7rem; border:1px solid #ddd; border-radius:8px; font-family:inherit; font-size:1rem">
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width:100%; padding:0.8rem; font-size:1rem">Login</button>
+
+        <p style="text-align:center; margin-top:1.2rem; color:#666; font-size:0.9rem">
+            Don't have an account? <a href="/register" style="color:var(--brown)">Register here</a>
+        </p>
+    </form>
+
+    <div style="background:var(--light); border-radius:8px; padding:1rem; margin-top:1rem; font-size:0.85rem; color:#666">
+        <p style="font-weight:600; margin-bottom:0.3rem">Demo Accounts:</p>
+        <p>Admin: <code>admin</code> / <code>Admin@123</code></p>
+        <p>Customer: <code>john_doe</code> / <code>John@123</code></p>
+    </div>
+</div>

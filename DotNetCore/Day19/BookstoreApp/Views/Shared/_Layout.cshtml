@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — PageTurner Bookstore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --cream: #FAF6EF;
+            --ink: #1A1209;
+            --brown: #7C4A1E;
+            --gold: #C8973A;
+            --light: #EDE7DA;
+            --red: #C0392B;
+            --green: #27AE60;
+        }
+        body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); color: var(--ink); }
+        nav { background: var(--ink); color: var(--cream); padding: 0 2rem; display: flex; align-items: center; gap: 2rem; height: 60px; }
+        nav .brand { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); text-decoration: none; }
+        nav a { color: var(--cream); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        nav a:hover { color: var(--gold); }
+        nav .spacer { flex: 1; }
+        nav .cart-badge { background: var(--gold); color: var(--ink); border-radius: 12px; padding: 2px 8px; font-size: 0.75rem; font-weight: 600; margin-left: 4px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .alert { padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-error { background: #f8d7da; color: #721c24; }
+        .btn { padding: 0.5rem 1.2rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-family: inherit; text-decoration: none; display: inline-block; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.85; }
+        .btn-primary { background: var(--brown); color: white; }
+        .btn-gold { background: var(--gold); color: var(--ink); font-weight: 600; }
+        .btn-danger { background: var(--red); color: white; }
+        .btn-sm { padding: 0.3rem 0.8rem; font-size: 0.8rem; }
+        footer { background: var(--ink); color: #aaa; text-align: center; padding: 1.5rem; margin-top: 4rem; font-size: 0.85rem; }
+        footer span { color: var(--gold); }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="brand" href="/">📖 PageTurner</a>
+        <a href="/catalog">Browse Books</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="/admin/books">Manage Books</a>
+            <a href="/admin/orders">All Orders</a>
+        }
+        <span class="spacer"></span>
+        <a href="/cart">🛒 Cart
+            @{
+                var cartCount = Context.Session.GetInt32("CartCount") ?? 0;
+            }
+        </a>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a href="/orders">My Orders</a>
+            <span style="color: var(--gold); font-size:0.85rem">@User.Identity.Name</span>
+            <form action="/logout" method="post" style="display:inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-sm" style="background:transparent;color:#aaa;border:1px solid #555">Logout</button>
+            </form>
+        }
+        else
+        {
+            <a href="/login">Login</a>
+            <a href="/register" class="btn btn-sm btn-gold">Register</a>
+        }
+    </nav>
+
+    <div class="container">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">✅ @TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error">⚠️ @TempData["Error"]</div>
+        }
+
+        @RenderBody()
+    </div>
+
+    <footer>
+        <p>© 2024 <span>PageTurner Bookstore</span> — Built with ASP.NET Core 8.0</p>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

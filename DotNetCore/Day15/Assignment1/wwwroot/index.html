@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Middleware Assignment</title>
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Assignment 1</p>
+            <h1>.NET Core Middleware Demo</h1>
+            <p>This page is served from static files and protected with HTTPS redirection, security headers, and a custom exception page.</p>
+            <ul>
+                <li>Request and response logging is enabled through middleware.</li>
+                <li>HTTPS is enforced for static content.</li>
+                <li>A content security policy is applied to reduce XSS risk.</li>
+            </ul>
+        </section>
+        <section class="card">
+            <h2>Static File Features</h2>
+            <p>HTML, CSS, and JavaScript are all served from the <strong>wwwroot</strong> folder.</p>
+            <button id="loadMessage" type="button">Load JavaScript message</button>
+            <p id="message" aria-live="polite"></p>
+        </section>
+    </main>
+    <script src="/js/site.js"></script>
+</body>
+</html>
